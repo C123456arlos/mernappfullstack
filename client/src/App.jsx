@@ -1,10 +1,4 @@
 import React from 'react'
-<<<<<<< Updated upstream
-
-const App = () => {
-  return (
-    <div>App</div>
-=======
 import { Toaster } from 'react-hot-toast'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
@@ -34,7 +28,6 @@ const App = () => {
         <Route path='*' element={<Navigate to='/' replace></Navigate>}></Route>
       </Routes>
     </>
->>>>>>> Stashed changes
   )
 }
 
