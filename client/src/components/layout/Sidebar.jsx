@@ -5,15 +5,22 @@ import { FolderPlusIcon, HardDriveIcon, HardDriveUploadIcon, PlusIcon, Trash2Ico
 import { Dropdown, DropdownItem } from '../ui/Dropdown'
 import { ProgressBar } from '../ui/ProgressBar'
 import { formatBytes } from '../../assets/assets'
+import { useDrive } from '../../hooks/useDrive'
 
 const Sidebar = ({ onCreateFolderClick, isMobileOpen, setIsMobileOpen }) => {
     const { user, currentFolderId } = useApp()
+    const {isUploading, uploadFiles}= useDrive()
     const location = useLocation()
     const fileInputRef = useRef(null)
-    const isUploading=false
     const storage_used = Number(user?.storage_used ?? 0)
     const storage_limit = Number(user?.storage_limit ?? 1073741824)
     const used_percentage = Math.min(100, Math.round((storage_used / storage_limit) * 100))
+    const handleFileSelect = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            uploadFiles(e.target.files, currentFolderId)
+            e.target.value=''
+        }
+    }
     const navItems = [
         {label:'My Drive', path:'/', icon:HardDriveIcon},
         {label:'Shared Files', path:'/shared', icon:UsersIcon},
@@ -34,7 +41,7 @@ const Sidebar = ({ onCreateFolderClick, isMobileOpen, setIsMobileOpen }) => {
                   </div>
               </div>
               <div className='p-4'>
-                  <input type='file' ref={fileInputRef} multiple className='hidden'></input>
+                  <input type='file' ref={fileInputRef} multiple className='hidden' onChange={handleFileSelect}></input>
                   <Dropdown trigger={<button type='button' disabled={isUploading} className='w-full flex items-center justify-center
                   gap-2 px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold text-sm rounded-lg
                   transition-all disabled:opacity-50 cursor-pointer'>

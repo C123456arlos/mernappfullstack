@@ -56,15 +56,15 @@ export const AppProvider = ({ children }) => {
             toast.error('logout error')
         }
     }
-    const fetchDriveContent = useCallback(() => {
+    const fetchDriveContent = useCallback(
         async (folderId= currentFolderId, search=searchQuery, sort=sortBy) => {
             if (!user) return
             setIsDriveLoading(true)
             try {
                 const parentParam = folderId || 'null'
                 const [folderRes, fileRes, detailRes] = await Promise.all([
-                    api.get('/api/folders', {params:{params_id:parentParam}}), 
-                    api.get('/api/files', { params: { folder_id: parentParam, parentParam, search, sort } }),
+                    api.get('/api/folders', {params:{parent_id:parentParam}}), 
+                    api.get('/api/files', { params: { folder_id: parentParam, search, sort } }),
                     folderId ? api.get(`/api/folders/${folderId}`):null
                 ])
                 setFolders(folderRes.data.folders)
@@ -76,7 +76,7 @@ export const AppProvider = ({ children }) => {
                 setIsDriveLoading(false)
             }
         }
-    },[user, currentFolderId, searchQuery, sortBy])
+    ,[user, currentFolderId, searchQuery, sortBy])
     const value = {
         user, setUser, login, register, logout, isLoading, isAuthenticated: !!user, isUploading,
         setIsUploading, 
