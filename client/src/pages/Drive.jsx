@@ -31,7 +31,7 @@ const Drive = () => {
         setDeleteItem(null)
     }
   return (
-      <div className='sapce-y-4'>
+      <div className='space-y-4'>
           <Breadcrumbs></Breadcrumbs>
           <FileGrid onFolderClick={(folder) => navigate(`/drive/${folder.id}`)} onPreviewFile={setPreviewFile} onShareItem={setShareItem}
               onRenameItem={setRenameItem} onMoveItem={setMoveItem} onDeleteItem={setDeleteItem} 
