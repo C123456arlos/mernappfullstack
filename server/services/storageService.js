@@ -1,5 +1,5 @@
-import { sql } from "../config/db"
-import { deleteFromStorage, deleteMultipleFromStorage } from "../utils/s3Helper"
+import { sql } from "../config/db.js"
+import { deleteFromStorage, deleteMultipleFromStorage } from "../utils/s3Helper.js"
 
 export const getFolderHierarchyIds = async (folderId, ownerId) => {
     const descendants = await sql`SELECT id FROM folders WHERE ${folderId} = ANY(path::text[]) AND owner_id=${ownerId}`

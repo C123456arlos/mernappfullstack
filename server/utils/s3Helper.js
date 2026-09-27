@@ -39,10 +39,11 @@ export const deleteFromStorage =async (key) => {
             await client.send(new DeleteObjectCommand({Bucket:BUCKET_NAME, Key:key}))
         } catch (fallbackErr) {
             console.error('[storage delete error]', fallbackErr.message)
+            throw fallbackErr
         }
     }
 }
 export const deleteMultipleFromStorage = async (keys) => {
-    if (!keys.length) return
+    if (!keys?.length) return
     await Promise.all(keys.map(deleteFromStorage))
 }
